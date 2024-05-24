@@ -1,6 +1,12 @@
-const _ = require('lodash');
+const {createReadStream} = require('fs');
 
-const arr = [1,[2,[3,[4]]]];
+const stream = createReadStream('./content/big-file.txt', 'utf-8', {highWaterMark:9000});
 
-const result = _.flattenDeep(arr);
-console.log(result);
+//default 64kb
+
+stream.on('data', (result)=>{
+  console.log(result);
+});
+stream.on('error', (error)=>{
+  console.log(error);
+})
